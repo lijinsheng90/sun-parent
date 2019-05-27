@@ -1,0 +1,45 @@
+# 多环境通用部分[各个环境可以覆盖通用字段]
+spring: 
+  application:
+    # 通用名字,其他环境可以覆盖：为你的应用起个名字，该名字将注册到eureka注册中心
+    name: sys-sysuser
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.10.58:3306/kinson2?useSSL=false&amp;characterEncoding=utf-8&amp;jdbcCompliantTruncation=false&amp;zeroDateTimeBehavior=convertToNull
+    username: root
+    password: iris2003
+  redis:
+    database: 0
+    host: 192.168.15.160
+    port: 6379
+    password: iris@2003
+    #让Spring MVC 的404错误被ExceptionAdviceHandler 捕获到
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.sysuser.model
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    com.sysuser: DEBUG
+
+server: 
+  # 服务提供监听端口[eureka客户端],注意改端口不能与本机服务器端口冲突
+  port: 8080
+  servlet:
+    context-path: /wh
+  
+eureka:
+  client:
+    # 是否将eureka自身作为应用注册到eureka注册中心,默认为true
+    registerWithEureka: true
+    service-url:
+       # 这里可以填写所有的eureka服务器地址并以','分离，当前面不能注册时候,自动选择后面的进行注册，排除单点故障问题
+       defaultZone: http://localhost:8761/eureka/
+       

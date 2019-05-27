@@ -1,0 +1,20 @@
+
+server:
+  port: 8200
+spring:
+  application:
+    name: service-zuul
+zuul:
+  routes:
+    api-a:
+      path: /api-a/*
+      serviceId: sys-sysuser
+    api-b:
+      path: /api-b/*
+      serviceId: sys-sysuser
+
+eureka:
+  client:
+    service-url:
+       # 这里可以填写所有的eureka服务器地址并以','分离，当前面不能注册时候,自动选择后面的进行注册，排除单点故障问题
+       defaultZone: http://localhost:8761/eureka/

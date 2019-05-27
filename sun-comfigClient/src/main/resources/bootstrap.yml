@@ -1,0 +1,19 @@
+# 多环境通用部分[各个环境可以覆盖通用字段]
+spring:
+  application:
+    # 通用名字,其他环境可以覆盖：为你的应用起个名字，该名字将注册到eureka注册中心
+    name: config-client
+  profiles: 
+    #该配置会在git中找config-client-dev的配置文件
+    active: dev
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        #开启config服务发现，既开启集群环境，此开关开启时，client必须使用服务名链接config server。
+        enabled: true
+        serviceId: config-server
+      #profile: dev
+      label: master
+
+   
