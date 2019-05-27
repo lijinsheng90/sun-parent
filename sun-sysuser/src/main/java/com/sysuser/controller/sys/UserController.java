@@ -30,6 +30,7 @@ public class UserController {
 	@Resource(name = "userServiceImpl")
 	private UserService userService;
 
+	//根据用户名获取对象
 	@GetMapping("/user/{loginName}")
 	public SysUser userGet(@PathVariable String loginName) {
 		SysUser userEntity = userService.getUserEntityByLoginName(loginName);

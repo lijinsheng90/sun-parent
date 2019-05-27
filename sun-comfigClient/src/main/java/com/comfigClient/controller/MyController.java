@@ -9,6 +9,7 @@ public class MyController {
 	@Value("${foo}")
     private String foo;
 
+	//测试类
     @RequestMapping("/foo")
     public String hi(){
         return foo;

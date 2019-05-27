@@ -7,8 +7,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient        // 开启服务发现功能
 @SpringBootApplication        // SpringBoot应用 
 public class SunComfigClientApp {
-	
+	//
     public static void main(String[] args) {
         SpringApplication.run(SunComfigClientApp.class, args);
-    }
+    } 
 }
