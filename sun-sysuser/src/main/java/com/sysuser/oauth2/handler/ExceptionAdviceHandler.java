@@ -1,7 +1,6 @@
 package com.sysuser.oauth2.handler;
 
 
-import com.sysuser.common.ResponseData;
 import com.sysuser.oauth2.exception.ArgumentsFailureException;
 import com.sysuser.oauth2.exception.AuthFailureException;
 import com.sysuser.oauth2.exception.NotAuthException;
@@ -20,16 +19,14 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ServerErrorException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.sysuser.oauth2.response.BaseResponse;
 import com.sysuser.oauth2.response.SimpleResponse;
+import com.sysuser.utils.HttpUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
@@ -59,11 +56,16 @@ public final class ExceptionAdviceHandler {
 
     @ExceptionHandler(value = RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public BaseResponse runtimeExceptionHandler(RuntimeException ex) {
+    public BaseResponse runtimeExceptionHandler(RuntimeException ex,HttpServletResponse response) {
 
-        ex.printStackTrace();
-
-        return this.serverErrorHandler();
+        try {
+			HttpUtils.writerError(baseResponse(500,SERVER_ERROR_TXT), response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        //return this.serverErrorHandler();
+		return null;
     }
 
     /**
@@ -221,7 +223,14 @@ public final class ExceptionAdviceHandler {
     @ExceptionHandler(value = NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public BaseResponse notFoundException(HttpServletResponse response) {
-        return baseResponse(404, "找不到服务");
+    	try {
+			HttpUtils.writerError(baseResponse(404, "找不到服务"), response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return null;
+        //return baseResponse(404, "找不到服务");
     }
 
     @ExceptionHandler(value = ServerErrorException.class)
