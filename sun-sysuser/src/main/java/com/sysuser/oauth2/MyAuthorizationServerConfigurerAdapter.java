@@ -81,6 +81,7 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
 		//endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore);
 		// 处理 ExceptionTranslationFilter 抛出的异常
 		endpoints.exceptionTranslator(myWebResponseExceptionTranslator);
+		endpoints.pathMapping("/wh/oauth/confirm_access","/wh/custom/confirm_access");
 	}
 
 	@Override

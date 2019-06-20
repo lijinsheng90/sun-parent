@@ -56,8 +56,8 @@ public final class ExceptionAdviceHandler {
 
     @ExceptionHandler(value = RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public BaseResponse runtimeExceptionHandler(RuntimeException ex,HttpServletResponse response) {
-
+    public void runtimeExceptionHandler(RuntimeException ex,HttpServletResponse response) {
+    	ex.printStackTrace();
         try {
 			HttpUtils.writerError(baseResponse(500,SERVER_ERROR_TXT), response);
 		} catch (IOException e) {
@@ -65,7 +65,6 @@ public final class ExceptionAdviceHandler {
 			e.printStackTrace();
 		}
         //return this.serverErrorHandler();
-		return null;
     }
 
     /**
@@ -222,14 +221,13 @@ public final class ExceptionAdviceHandler {
      */
     @ExceptionHandler(value = NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public BaseResponse notFoundException(HttpServletResponse response) {
+    public void notFoundException(HttpServletResponse response) {
     	try {
 			HttpUtils.writerError(baseResponse(404, "找不到服务"), response);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	return null;
         //return baseResponse(404, "找不到服务");
     }
 

@@ -4,6 +4,7 @@ package com.sysuser.oauth2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -18,6 +19,7 @@ import com.sysuser.oauth2.filter.MySecurityFilter;
 
 @Configuration
 @EnableResourceServer
+@Order(6)
 public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
 
 	
@@ -31,7 +33,6 @@ public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerA
     private MyAccessDeniedHandler handler;
     @Autowired
     private AuthenticationEntryPoint point;
-    
     
      
      @Override
@@ -66,11 +67,12 @@ public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerA
         //.and().httpBasic()//启用http 基础验证
         //.and().csrf().disable();//关闭跨站请求防护
 */
-
 		http.authorizeRequests() 
 	      .anyRequest().authenticated() //任何请求,登录后可以访问 
-	      //.and() .formLogin() .loginPage("/login") .failureUrl("/login?error") .permitAll() //登录页面用户任意访问 
+	      .and() .formLogin() .loginPage("/auth/login") .failureUrl("/auth/login?error") .permitAll() //登录页面用户任意访问 
 	      .and() .logout().permitAll(); //注销行为任意访问 
+		 http.authorizeRequests().antMatchers("/authorize").permitAll();
+	        
 	     http.addFilterBefore(mySecurityFilter, FilterSecurityInterceptor.class);
 
 	}
