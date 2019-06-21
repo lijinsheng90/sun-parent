@@ -23,7 +23,7 @@ import com.sysuser.oauth2.filter.MySecurityFilter;
 //Spring-Security 配置
 @Configuration
 @EnableWebSecurity
-@Order(2)
+@Order(1)
 public class WebsecurityConfig extends WebSecurityConfigurerAdapter {
 
 	//通过自定义userDetailsService 来实现查询数据库
@@ -47,11 +47,11 @@ public class WebsecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers
+    /*    web.ignoring().antMatchers
                 ("/swagger-ui.html/**", "/webjars/**",
                         "/swagger-resources/**", "/v2/api-docs/**",
                         "/swagger-resources/configuration/ui/**", "/swagger-resources/configuration/security/**",
-                        "/images/**");
+                        "/images/**");*/
     }
     
 /*	
@@ -97,7 +97,7 @@ public class WebsecurityConfig extends WebSecurityConfigurerAdapter {
 */		
 		 http.authorizeRequests()
 		      .anyRequest().authenticated() //任何请求,登录后可以访问 
-		      .and().formLogin().loginPage("/auth/login") .failureUrl("/auth/login?error").permitAll() //登录页面用户任意访问 
+		      .and().formLogin().loginPage("/auth/login") .failureUrl("/auth/login?error").defaultSuccessUrl("/main").permitAll() //登录页面用户任意访问 
 		      .and().logout().permitAll(); //注销行为任意访问
 		 http.authorizeRequests().antMatchers("/authorize").permitAll();
  

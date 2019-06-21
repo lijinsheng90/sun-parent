@@ -29,10 +29,15 @@ public class SysUserController {
 
     @GetMapping("/auth/login")
     public ModelAndView loginPage(Model model){
-        model.addAttribute("loginProcessUrl",loginProcessUrl);
-        ModelAndView view = new ModelAndView();
-        view.setViewName("base-login");
-        view.addObject("loginProcessUrl", loginProcessUrl);
+    	ModelAndView view = new ModelAndView();
+    	if(SecurityAuthenUtil.getUserId()!=0) {
+    		view.addObject("userid", SecurityAuthenUtil.getUserId());
+            view.addObject("LoginName", SecurityAuthenUtil.getLoginName());
+            view.setViewName("main");
+    	}else {
+    		view.setViewName("base-login");
+            view.addObject("loginProcessUrl", loginProcessUrl);
+    	}
         return view;
     }
     

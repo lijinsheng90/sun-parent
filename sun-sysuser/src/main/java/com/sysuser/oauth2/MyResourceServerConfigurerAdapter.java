@@ -19,7 +19,6 @@ import com.sysuser.oauth2.filter.MySecurityFilter;
 
 @Configuration
 @EnableResourceServer
-@Order(6)
 public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
 
 	

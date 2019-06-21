@@ -12,7 +12,7 @@
     }
 
     .title {
-        background-color: #E9686B;
+        background-color: #FF8000;
         height: 50px;
         padding-left: 20%;
         padding-right: 20%;
@@ -40,7 +40,7 @@
         cursor: pointer;
         margin-top: 20px;
         border-radius: 3px;
-        background-color: #E9686B;
+        background-color: #FF8000;
         color: white;
         border: none;
         font-size: 15px;
@@ -56,12 +56,12 @@
     <div class="container">
          <h3 th:text="${clientId}+' 请求授权，该应用将获取你的以下信息'"></h3>
         <p>昵称，头像和性别</p>
-         授权后表明你已同意 <a  href="#boot" style="color: #E9686B">OAUTH-BOOT 服务协议</a>
+         授权后表明你已同意 <a  href="#boot" style="color: #FF8000">OAUTH-BOOT 服务协议</a>
         <form method="post" action="/wh/oauth/authorize">
             <input type="hidden" name="user_oauth_approval" value="true">
             <input type="hidden" name="_csrf" th:value="${_csrf.getToken()}"/>
-            <input type="hidden" name="scope.all" value="true">
-            <!-- 拒绝：<input name="scope.all" value="false" type="radio"><br/> -->
+            同意：<input name="scope.all" value="true" checked="checked" type="radio">
+            拒绝：<input name="scope.all" value="false" type="radio"><br/>
             <button class="btn" type="submit">同意/授权</button>
         </form>
     </div>
