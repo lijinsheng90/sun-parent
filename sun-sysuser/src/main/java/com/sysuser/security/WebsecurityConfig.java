@@ -6,19 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
-import com.sysuser.oauth2.MyAccessDecisionManager;
-import com.sysuser.oauth2.MyFilterInvocationSecurityMetadataSource;
 import com.sysuser.oauth2.filter.MySecurityFilter;
+import com.sysuser.oauth2.logout.MyLogoutSuccessHandler;
 
 //Spring-Security 配置
 @Configuration
@@ -47,11 +42,11 @@ public class WebsecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-    /*    web.ignoring().antMatchers
-                ("/swagger-ui.html/**", "/webjars/**",
+       web.ignoring().antMatchers
+                ("/swagger-ui.html/**", "/wh/static/**",
                         "/swagger-resources/**", "/v2/api-docs/**",
                         "/swagger-resources/configuration/ui/**", "/swagger-resources/configuration/security/**",
-                        "/images/**");*/
+                        "/images/**");
     }
     
 /*	
@@ -98,9 +93,9 @@ public class WebsecurityConfig extends WebSecurityConfigurerAdapter {
 		 http.authorizeRequests()
 		      .anyRequest().authenticated() //任何请求,登录后可以访问 
 		      .and().formLogin().loginPage("/auth/login") .failureUrl("/auth/login?error").defaultSuccessUrl("/main").permitAll() //登录页面用户任意访问 
-		      .and().logout().permitAll(); //注销行为任意访问
-		 http.authorizeRequests().antMatchers("/authorize").permitAll();
- 
+		      .and().logout().logoutSuccessHandler(new MyLogoutSuccessHandler()).permitAll(); //注销行为任意访问
+		 http.authorizeRequests().antMatchers("/authorize","/jquery/**").permitAll();
+		 
 		 http.addFilterBefore(mySecurityFilter, FilterSecurityInterceptor.class);
 
 	}

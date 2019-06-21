@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>进入主页</title>
+    <script type="text/javascript" src="http://localhost:8080/wh/static/jquery/jquery.js"></script>
 </head>
 <style>
 
@@ -51,12 +52,34 @@
     <div class="title-right">LIJINSHENG 主页</div>
     <div class="title-left">
         <a href="#help">菜单</a>
-        <a href="#help">退出</a>
+        <a href="javascript:loginout()">退出</a>
+        
+		<form id="loginForm" method="post" action="/wh/logout">
+            <input type="hidden" name="loginOutUrl" value="http://localhost:8080/wh/auth/login"/>
+            <input type="hidden" name="_csrf" th:value="${_csrf.getToken()}"/>
+        </form>
+
     </div>
 </div>
     <div class="container">
          <h3 th:text="${LoginName}+' 用户，欢迎你登录进入系统'"></h3>
         <p>进入系统首页</p>
     </div>
+
 </body>
+<script>
+
+function loginout(){
+	$("#loginForm").submit();
+	/* $.ajax({
+		type: "POST", // 使用post方式
+		url: "/wh/loginout",
+		data:{"loginOutUrl":"http://localhost:8080/wh/auth/login"}, // 参数列表，stringify()方法用于将JS对象序列化为json字符串
+		dataType:"json",
+		success: function(result){
+			// 请求成功后的操作
+		}
+	});  */
+}
+</script>
 </html>

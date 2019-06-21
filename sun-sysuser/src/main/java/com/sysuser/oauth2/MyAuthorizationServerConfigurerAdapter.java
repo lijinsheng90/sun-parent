@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -82,6 +83,7 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
 		// 处理 ExceptionTranslationFilter 抛出的异常
 		endpoints.exceptionTranslator(myWebResponseExceptionTranslator);
 		endpoints.pathMapping("/wh/oauth/confirm_access","/wh/custom/confirm_access");
+		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST); //设置允许get,post
 	}
 
 	@Override
