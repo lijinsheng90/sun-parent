@@ -33,9 +33,9 @@ public class SysUserController {
     	if(SecurityAuthenUtil.getUserId()!=0) {
     		view.addObject("userid", SecurityAuthenUtil.getUserId());
             view.addObject("LoginName", SecurityAuthenUtil.getLoginName());
-            view.setViewName("main");
+            view.setViewName("/login/main");
     	}else {
-    		view.setViewName("base-login");
+    		view.setViewName("/login/base-login");
             view.addObject("loginProcessUrl", loginProcessUrl);
     	}
         return view;
@@ -46,7 +46,7 @@ public class SysUserController {
         ModelAndView view = new ModelAndView();
         view.addObject("userid", SecurityAuthenUtil.getUserId());
         view.addObject("LoginName", SecurityAuthenUtil.getLoginName());
-        view.setViewName("main");
+        view.setViewName("/login/main");
         return view;
     }
 }

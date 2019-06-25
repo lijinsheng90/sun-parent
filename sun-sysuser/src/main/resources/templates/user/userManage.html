@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <script th:src="@{/jquery/jquery.js}"></script>
+    <link rel="stylesheet" th:href="@{/juqeryEasyUI/themes/default/easyui.css}">
+     <link rel="stylesheet" th:href="@{/juqeryEasyUI/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/juqeryEasyUI/demo.css}">
+    <script th:src="@{/juqeryEasyUI/jquery.min.js}"></script>
+    <script th:src="@{/juqeryEasyUI/jquery.easyui.min.js}"></script>
+    <script th:src="@{/juqeryEasyUI/locale/easyui-lang-zh_CN.js}"></script>
+    <script th:src="@{/juqeryEasyUI/plugins/jquery.datagrid.js}"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+
+<body style="padding: 4px;">
+	 <table id="mytb" ></table>
+	 
+	 <script type="text/javascript" th:inline="none">
+       $('#mytb').datagrid({
+           title: '',  //表格名称
+           iconCls: 'icon-edit',  //图标
+           width:'100%',//表格宽度
+           height:'auto',   //表格高度，可指定高度，可自动
+           border:true,  //表格是否显示边框
+           url:'/wh/user/getUserAll',   //获取表格数据时请求的地址
+           columns:[[
+             {field:'id',title:'编号',width:'10%',hidden:false},
+             {field:'loginName',title:'登录名',width:'20%'},
+             {field:'name',title:'姓名',width:'30%'},
+             {field:'email',title:'邮箱',width:'20%'},
+             {field:'action',title:'操作',width:'20%'}
+           ]],
+           pagination:true,//如果表格需要支持分页，必须设置该选项为true
+           pageSize:20,   //表格中每页显示的行数
+           pageList:[20,40,60,80,120,200],
+           rownumbers:true,   //是否显示行号
+           nowrap: false,   
+           striped: true,  //奇偶行是否使用不同的颜色
+           method:'get',   //表格数据获取方式,请求地址是上面定义的url
+           sortName: 'ID',  //按照ID列的值排序
+           sortOrder: 'desc',  //使用倒序排序
+           idField: 'id',
+           loadMsg:'正在努力加载，请稍后...',   //加载数据时显示提示信息
+           toolbar: [{
+                     text: '添加',
+                     iconCls: 'icon-add',
+                     handler: function() {
+                         getSelectIds('mytb','没有选择');
+                     }
+                 }, '-', {
+                     text: '删除',
+                     iconCls: 'icon-cut',
+                     handler: function() {
+                       getSelectIds('mytb','没有选择');
+                     }
+                 }, '-', {
+                     text: '修改',
+                     iconCls: 'icon-save',
+                     handler: function() {
+                         getSelectIds('mytb','没有选择');
+                     }
+                 }]
+         });
+       </script>
+</body>
+	
+</html>

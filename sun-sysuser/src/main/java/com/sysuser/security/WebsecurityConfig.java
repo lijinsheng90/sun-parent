@@ -33,7 +33,6 @@ public class WebsecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService);
 	}
 	
-	
 	 /**
      * 让Security 忽略这些url，不做拦截处理
      *
@@ -43,7 +42,7 @@ public class WebsecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
        web.ignoring().antMatchers
-                ("/swagger-ui.html/**", "/wh/static/**",
+                ("/swagger-ui.html/**", "/static/**",
                         "/swagger-resources/**", "/v2/api-docs/**",
                         "/swagger-resources/configuration/ui/**", "/swagger-resources/configuration/security/**",
                         "/images/**");
@@ -93,7 +92,9 @@ public class WebsecurityConfig extends WebSecurityConfigurerAdapter {
 		 http.authorizeRequests()
 		      .anyRequest().authenticated() //任何请求,登录后可以访问 
 		      .and().formLogin().loginPage("/auth/login") .failureUrl("/auth/login?error").defaultSuccessUrl("/main").permitAll() //登录页面用户任意访问 
+		      .and().headers().frameOptions().disable()
 		      .and().logout().logoutSuccessHandler(new MyLogoutSuccessHandler()).permitAll(); //注销行为任意访问
+		 http.csrf().disable();//关闭防跨域攻击功能
 		 http.authorizeRequests().antMatchers("/authorize","/jquery/**").permitAll();
 		 
 		 http.addFilterBefore(mySecurityFilter, FilterSecurityInterceptor.class);
