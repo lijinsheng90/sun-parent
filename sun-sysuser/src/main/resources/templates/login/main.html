@@ -74,7 +74,7 @@
 	<div region="west" split="true" title="导航菜单" style="width: 200px;">
 		<div id="aa" class="easyui-accordion" data-options="fit:false"
 			style="position: absolute; top: 27px; left: 0px; right: 0px; bottom: 0px;">
-			<div title="博文管理" iconcls="icon-save" 
+			<div title="申报管理" iconcls="icon-save" 
 				style="overflow: auto; padding: 10px;">
 				<ul class="easyui-tree">
 					<li iconcls="icon-save"><span>Folder</span>
@@ -97,11 +97,16 @@
 			<div title="用户管理" iconcls="icon-reload" style="padding: 10px;" selected="true">
 			   <ul class="easyui-tree">
 					<li iconcls="icon-save"><span><a target="mainFrame" href="user/userManage">账号管理</a></span></li>
-					<li><span><a href="#">角色管理</a></span></li>
-					<li><span><a href="#">个人信息</a></span></li>
+					<li><span><a target="mainFrame" href="user/roleManage">角色管理</a></span></li>
+					<li><span><a target="mainFrame" href="user/userInfo">个人信息</a></span></li>
 				</ul>
 			</div>
-			<div title="系统管理">content3</div>
+			<div title="系统管理">
+			    <ul class="easyui-tree">
+					<li iconcls="icon-save"><span><a target="mainFrame" href="user/userManage">菜单管理</a></span></li>
+					<li><span><a target="mainFrame" href="/wh/hello">权限管理</a></span></li>
+					<li><span><a target="mainFrame" href="user/userInfo">内部单位管理</a></span></li>
+				</ul></div>
 		</div>
 	</div>
 
@@ -158,7 +163,7 @@
 						function createFrame(url) {
 							var s = '<iframe name="mainFrame" scrolling="auto" frameborder="0" src="'
 									+ url
-									+ '" style="width:100%;height:100%;"></iframe>';
+									+ '" style="width:100%;height:99%;"></iframe>';
 							return s;
 						}
 						function tabClose() {

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sysuser.model.sys.SysUserRole;
-import com.sysuser.service.manage.RelationService;
+import com.sysuser.service.manage.SysUserRoleService;
 
 
 @RestController
@@ -21,8 +21,8 @@ public class RelationController {
 
 	private Logger log = LoggerFactory.getLogger(RelationController.class);
 
-	@Resource(name = "relationServiceImpl")
-	private RelationService relationService;
+	@Resource(name = "sysUserRoleServiceImpl")
+	private SysUserRoleService relationService;
 
 	/**
 	 * 通过userId得到关系List

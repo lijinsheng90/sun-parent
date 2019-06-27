@@ -2,8 +2,9 @@ package com.sysuser.model.sys;
 
 import java.util.List;
 
+
 /**
- * @author wanghuan
+ * @author lijinsheng
  *
  */
 public class SysUser {

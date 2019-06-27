@@ -1,5 +1,6 @@
 package com.sysuser.service.manage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,23 +11,24 @@ import com.sysuser.dao.SysUserRoleDao;
 import com.sysuser.model.sys.SysUserRole;
 
 
-@Service(value = "relationServiceImpl")
-public class RelationServiceImpl implements RelationService {
+@Service(value = "sysUserRoleServiceImpl")
+public class SysUserRoleServiceImpl implements SysUserRoleService {
 
 	@Autowired
 	private SysUserRoleDao relationDao;
 
 	@Override
 	public List<SysUserRole> getRelationByUserId(int userId) {
-		return relationDao.getRelationByUserId(userId);
+		return relationDao.getSysUserRolesById(userId);
 	}
 
 	@Transactional
 	@Override
 	public void insertRelations(List<SysUserRole> relationList) {
-		relationDao.delById(relationList.get(0).getUserId());
+		List<String> userIds=new ArrayList<String>();
+		relationDao.delById(userIds);
 		if (relationList.get(0).getRoleId() != null) {
-			relationDao.insertRelations(relationList);
+			relationDao.insertSysUserRoles(relationList);
 		}
 	}
 

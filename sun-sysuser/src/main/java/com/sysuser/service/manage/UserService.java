@@ -39,7 +39,7 @@ public interface UserService {
 	 * 新建用户信息
 	 * @param userEntity
 	 */
-	public void insertUser(SysUser userEntity);
+	public void insertUser(SysUser userEntity,int roleid);
 
 	/**
 	 * 更新用户信息
@@ -51,5 +51,11 @@ public interface UserService {
 	 * 删除用户信息
 	 * @param groupId
 	 */
-	public void deleteUsers(List<String> groupId);
+	public void deleteUsers(List<String> userIds);
+
+	/**
+	 * 根据id获取用户对象
+	 * @param 
+	 */
+	public SysUser getUserById(int userId);
 }

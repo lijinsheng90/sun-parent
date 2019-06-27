@@ -11,6 +11,7 @@ public class MyWebMvcConfig extends WebMvcConfigurationSupport {
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
 		registry.addResourceHandler("/jquery/**").addResourceLocations("classpath:/static/jquery/");
 		registry.addResourceHandler("/juqeryEasyUI/**").addResourceLocations("classpath:/static/juqeryEasyUI/");
+		registry.addResourceHandler("/common/**").addResourceLocations("classpath:/static/common/");
 	}
 
 }

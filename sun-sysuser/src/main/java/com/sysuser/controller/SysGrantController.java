@@ -18,7 +18,7 @@ public class SysGrantController {
     public ModelAndView getAccessConfirmation(Map<String, Object> model, HttpServletRequest request) throws Exception {
         AuthorizationRequest authorizationRequest = (AuthorizationRequest) model.get("authorizationRequest");
         ModelAndView view = new ModelAndView();
-        view.setViewName("base-grant");
+        view.setViewName("login/base-grant");
         view.addObject("clientId", authorizationRequest.getClientId());
         return view;
     }

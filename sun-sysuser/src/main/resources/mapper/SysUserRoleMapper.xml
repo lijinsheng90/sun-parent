@@ -6,22 +6,28 @@
 		<result column="role_id" property="roleId" />
 	</resultMap>
 	<!-- 通过userId得到关系List -->
-	<select id="getRelationByUserId" resultMap="relationMap">
-		select * from r_user_role
+	<select id="getSysUserRolesById" resultMap="relationMap">
+		select * from sys_user_role
 		<where>
 			user_id = #{userId}
 		</where>
 	</select>
 	<!-- 通过userId删除关系 -->
 	<delete id="delById">
-		delete from r_user_role
+		delete from sys_user_role
 		<where>
-			user_id = #{userId}
+			<if test="userIds !=null">
+				user_id in
+				<foreach collection="userIds" item="item" index="index"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
 		</where>
 	</delete>
 	<!-- 批量插入关系数据 -->
-	<insert id="insertRelations">
-		insert into r_user_role(user_id,role_id) values
+	<insert id="insertSysUserRoles">
+		insert into sys_user_role(user_id,role_id) values
 		<foreach collection="list" item="item" index="index"
 			separator=",">
 			(#{item.userId},#{item.roleId})

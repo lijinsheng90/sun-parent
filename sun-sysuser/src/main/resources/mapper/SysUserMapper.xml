@@ -47,36 +47,7 @@
 			</if>
 		</where>
 	</select>
-	<insert id="insert">
-		<if test="userEntity != null">
-			insert into sys_user (name,sex,age) values
-			(#{userEntity.name},#{userEntity.sex},#{userEntity.age})
-		</if>
-	</insert>
-	<delete id="del">
-		delete from sys_user
-		<where>
-			<if test="userEntity.id != null and userEntity.id != ''">id = #{userEntity.id}</if>
-			<if test="userEntity.name != null and userEntity.name != ''">and name = #{userEntity.name}</if>
-			<if test="userEntity.sex != null and userEntity.sex != ''">and sex = #{userEntity.sex }</if>
-			<if test="userEntity.age != null and userEntity.age != ''">and age = #{userEntity.age}</if>
-		</where>
-	</delete>
-	<update id="update">
-		update sys_user set name = #{name},sex = #{sex},age = #{age}
-		<where>
-			id = #{id}
-		</where>
-	</update>
-	<select id="select">
-		select * from sys_user
-		<where>
-			<if test="id != null">id = #{id}</if>
-			<if test="name != null">and name = #{name}</if>
-			<if test="sex != null">and sex = #{sex}</if>
-			<if test="age != null">and age = #{age}</if>
-		</where>
-	</select>
+	
 	<select id="getUserEntityByLoginName" resultMap="userMap">
 		select * from sys_user su left join sys_user_role sur on su.id=sur.user_id
 		<where>
@@ -84,20 +55,18 @@
 		</where>
 	</select>
 	<!-- 新建用户信息 -->
-	<insert id="insertUser">
+	<insert id="insertUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.sysuser.model.sys.SysUser">
 		insert into sys_user (name,login_name,password,email)
 		values
-		(#{userEntity.name},#{userEntity.loginName},#{userEntity.password},#{userEntity.email})
+		(#{name},#{loginName},#{password},#{email})
 	</insert>
 	<!-- 更新用户信息 -->
 	<update id="updateUser">
 		update sys_user set
 		name = #{userEntity.name},
-		login_name =
-		#{userEntity.loginName},
-		password = #{userEntity.password},
-		email =
-		#{userEntity.email}
+		login_name =#{userEntity.loginName},
+		<!-- password = #{userEntity.password}, -->
+		email =#{userEntity.email}
 		<where>
 			id = #{userEntity.id}
 		</where>
@@ -106,9 +75,9 @@
 	<delete id="deleteUsers">
 		delete from sys_user
 		<where>
-			<if test="groupId !=null">
+			<if test="userIds !=null">
 				id in
-				<foreach collection="groupId" item="item" index="index"
+				<foreach collection="userIds" item="item" index="index"
 					open="(" separator="," close=")">
 					#{item}
 				</foreach>
@@ -133,5 +102,15 @@
 	<!-- 获取所有权限 -->
 	<select id="getAuthoritieAll" resultMap="authorMap">
 	   select sa.* from sys_authoritie sa;
+	</select>
+	
+	<!-- 根据Id获取用户对象信息 -->
+	<select id="getUserById" resultMap="userMap">
+	<![CDATA[select * from sys_user]]>
+		<where>
+			<if test="userId != null and userId != ''">
+				id = #{userId}
+			</if>
+		</where>
 	</select>
 </mapper>

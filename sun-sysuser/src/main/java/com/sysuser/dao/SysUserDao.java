@@ -50,7 +50,7 @@ public interface SysUserDao {
 	 * 新建用户信息
 	 * @param userEntity
 	 */
-	public void insertUser(@Param("userEntity") SysUser userEntity);
+	public int insertUser(SysUser userEntity);
 
 	/**
 	 * 更新用户信息
@@ -62,7 +62,7 @@ public interface SysUserDao {
 	 * 删除用户信息
 	 * @param groupId
 	 */
-	public void deleteUsers(@Param("groupId") List<String> groupId);
+	public void deleteUsers(@Param("userIds") List<String> userIds);
 	
 	
 	//=========登录权限控制=======stat===========
@@ -79,7 +79,8 @@ public interface SysUserDao {
 	 * @return
 	 */
 	public ArrayList<SysAuthoritie> getAuthoritieAll();
-	
+
 	
 	//=========登录权限控制=======end===========
+	public SysUser getUserById(@Param("userId") int userId);
 }

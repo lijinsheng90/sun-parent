@@ -1,0 +1,58 @@
+/* -----scmtip.css  ----- */
+/* -----提示样式  ----- */
+
+.scmtips_window{
+	background-color: #fff;
+	border: 1px solid #f1f1f1;
+	border-radius: 5px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+}
+#scmtip_overlay{
+	background:#fff;
+}
+.scmtips_window ul{
+	padding:0;
+	margin:0;
+}
+.scmtips_window ul li{
+	list-style:none;
+}
+.scmtips_window ul li.text_yes{
+	font-size:14px;
+	color:#A5DC86;
+	font-style: normal;font-family: "Microsoft YaHei",Arial;
+	line-height:20px;
+	word-break: break-all;
+	overflow:hidden;
+	padding: 20px 13px;
+	font-weight:bold;
+	background-position:center left;
+	
+}
+.scmtips_window ul li.text_wrong{
+	font-size:14px;
+	color:#ff0000;
+	font-style: normal;font-family: "Microsoft YaHei",Arial;
+	line-height:20px;
+	word-break: break-all;
+	overflow:hidden;
+	padding: 20px 13px;
+	font-weight:bold;
+	background-position:center left;
+	
+}
+.scmtips_window ul li.text_ts{
+	font-size:14px;
+	color:#F39C12;
+	font-style: normal;font-family: "Microsoft YaHei",Arial;
+	font-weight:bold;
+	line-height:20px;
+	word-break: break-all;
+	overflow:hidden;
+	padding: 20px 13px;
+	background-position:center left;
+}
+
+.scmtips_window .scmtip_icon_yes{background:url(./img/tips_info_dp.png) 1px 1px no-repeat;padding-left: 25px;margin-left: 8px;background-position: left center;}
+.scmtips_window .scmtip_icon_wrong{background:url(./img/tips_wrong_dp.png) 1px 1px no-repeat;padding-left: 25px;margin-left: 8px;background-position: left center;}
+.scmtips_window .scmtip_icon_ts{background:url(./img/tips_warn_dp.png) 1px 1px no-repeat;padding-left: 25px;margin-left: 8px;background-position: left center;}

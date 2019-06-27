@@ -1,24 +1,49 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>用户管理</title>
     <script th:src="@{/jquery/jquery.js}"></script>
     <link rel="stylesheet" th:href="@{/juqeryEasyUI/themes/default/easyui.css}">
-     <link rel="stylesheet" th:href="@{/juqeryEasyUI/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/juqeryEasyUI/themes/icon.css}">
     <link rel="stylesheet" th:href="@{/juqeryEasyUI/demo.css}">
     <script th:src="@{/juqeryEasyUI/jquery.min.js}"></script>
     <script th:src="@{/juqeryEasyUI/jquery.easyui.min.js}"></script>
     <script th:src="@{/juqeryEasyUI/locale/easyui-lang-zh_CN.js}"></script>
     <script th:src="@{/juqeryEasyUI/plugins/jquery.datagrid.js}"></script>
-<script type="text/javascript">
-
-</script>
+    <script th:src="@{/jquery/jquery.form.js}"></script>
+    <script th:src="@{/jquery/jquery-migrate-1.4.1.js}"></script>
+    <script th:src="@{/juqeryEasyUI/Packing/SunDialog.js}"></script>
+    <script th:src="@{/juqeryEasyUI/scmtip/scmtip.js}"></script>
+    <link rel="stylesheet" th:href="@{/juqeryEasyUI/scmtip/scmtip.css}">
+    <link rel="stylesheet" th:href="@{/common/public.css}">
 </head>
 
 <body style="padding: 4px;">
+<div th:replace="common/basePath :: thymeleaf_url"></div>
+
 	 <table id="mytb" ></table>
-	 
+	 <div id="add_updateUser" style="width:650px;height:400px;padding:10px;display: none;">
+	    	<form id="ff" method="post" th:action="@{/users/addEditUser}" th:object="${userEntity}">
+	    	    <input class="easyui-textbox" type="hidden" th:field="*{id}" name="id"/>
+				<div style="margin-bottom:10px">
+					<input class="easyui-textbox" prompt="姓名" name="name" th:field="*{name}" style="width:100%" data-options="label:'姓名:',required:true">
+				</div>
+				<div style="margin-bottom:10px">
+					<input class="easyui-textbox" prompt="登录账号" name="loginName" th:field="*{loginName}" style="width:100%" data-options="label:'登录账号:',required:true">
+				</div>
+				<div style="margin-bottom:10px" id="div_password">
+					<input class="easyui-passwordbox" prompt="登录密码" th:field="*{password}" iconWidth="28" style="width:100%;" data-options="label:'登录密码:',required:true">
+				</div>
+				<div style="margin-bottom:10px">
+					<input class="easyui-textbox" prompt="email" name="email" th:field="*{email}" style="width:100%" data-options="label:'Email:',required:true,validType:'email'">
+				</div>
+				<div style="margin-bottom:10px" id="div_roleid">
+					<select class="easyui-combobox" name="roleid" label="角色" style="width:100%"><option value="1">管理员</option><option value="2">test1</option><option value="3">test2</option><option value="4">test3</option></select>
+				</div>
+			</form>
+	 </div>
+	
 	 <script type="text/javascript" th:inline="none">
        $('#mytb').datagrid({
            title: '',  //表格名称
@@ -26,20 +51,28 @@
            width:'100%',//表格宽度
            height:'auto',   //表格高度，可指定高度，可自动
            border:true,  //表格是否显示边框
-           url:'/wh/user/getUserAll',   //获取表格数据时请求的地址
+           url:basePath+'/user/getUserAll',   //获取表格数据时请求的地址
            columns:[[
-             {field:'id',title:'编号',width:'10%',hidden:false},
-             {field:'loginName',title:'登录名',width:'20%'},
-             {field:'name',title:'姓名',width:'30%'},
-             {field:'email',title:'邮箱',width:'20%'},
-             {field:'action',title:'操作',width:'20%'}
+        	 {field:'ck',checkbox:true}, //显示复选框  
+             {field:'id',title:'编号',width:100,hidden:true},
+             {field:'loginName',title:'登录名',width:100,sortable:true},
+             {field:'name',title:'姓名',width:120},
+             {field:'email',title:'邮箱',width:150},
+             {field:'action',title:'操作',width:180,formatter:formatOper}
            ]],
            pagination:true,//如果表格需要支持分页，必须设置该选项为true
+           pageNumber:1,//分页初始化行号
            pageSize:20,   //表格中每页显示的行数
            pageList:[20,40,60,80,120,200],
            rownumbers:true,   //是否显示行号
            nowrap: false,   
+           fitColumns:true,//去掉最右边的空白
+           scrollbarSize:0,
+           singleSelect:true,//是否单行选定
+           striped:true,//交替显示行背景。
+           fit:false,//是否自动适应父容器
            striped: true,  //奇偶行是否使用不同的颜色
+           queryParams:{"aaa":"ces","bbb":"ceshi2"},//请求数据时额外发送的参数
            method:'get',   //表格数据获取方式,请求地址是上面定义的url
            sortName: 'ID',  //按照ID列的值排序
            sortOrder: 'desc',  //使用倒序排序
@@ -49,7 +82,7 @@
                      text: '添加',
                      iconCls: 'icon-add',
                      handler: function() {
-                         getSelectIds('mytb','没有选择');
+                    	 editUser(0);
                      }
                  }, '-', {
                      text: '删除',
@@ -65,7 +98,129 @@
                      }
                  }]
          });
-       </script>
+       
+       function formatOper(val,row,index){
+	   	    return '<span><a href="javascript:void(0)" class="yase" onclick="editUser('+row["id"]+')"><i class="icon-save icon-point">&nbsp;</i>修改</a> <a href="javascript:void(0)" class="yase" onclick="delUser('+row["id"]+')"><i class="icon-remove icon-point">&nbsp;</i>删除</a></span>';  
+	   	} 
+       
+       function delUser(UserId){
+    	   
+			$.messager.confirm('提示', '确定删除此用户吗？', function(r) {
+					if (r) {
+						$.ajax({
+							type : "post",
+							url : basePath+"/users/delUser",
+							data : {
+								"UserId" : UserId
+							},
+							dataType : "json",
+							success : function(data) {
+								if (data.resule == "success") {
+									scmSuccess("删除成功");
+									$("#mytb").datagrid('reload');
+								} else {
+									scmError("删除失败");
+								}
+							},
+							error : function() {
+								scmError("删除失败");
+							}
+						});
+					} else {
+						return;
+					}
+				});
+
+				
+				//scmSuccess("删除成功");
+				//scmWarn("警告");
+				//scmError("错误");
+			}
+
+			function showMessageDialog(url, title, width, height, shadow) {
+				var content = '<iframe src="'
+						+ url
+						+ '" width="100%" height="99%" frameborder="0" scrolling="no"></iframe>';
+				var boarddiv = '<div id="msgwindow" title="' + title + '"></div>'//style="overflow:hidden;"可以去掉滚动条
+				$(document.body).append(boarddiv);
+				var win = $('#msgwindow').dialog({
+					content : content,
+					width : width,
+					height : height,
+					modal : shadow,
+					title : title,
+					onClose : function() {
+						$(this).dialog('destroy');//后面可以关闭后的事件
+					}
+				});
+				win.dialog('open');
+			}
+
+			function editUser(userId) {
+				var title="添加用户";
+				if(userId!=0){
+					 $('#ff').form('load',basePath+"/users/getUser?userId="+userId);
+					 title="修改用户";
+					 $("#div_password").hide();
+					 $("#div_roleid").hide();
+				}else{
+					 $('#ff').form('clear');//清理form表单数据
+					 $("#div_password").show();
+					 $("#div_roleid").show();
+				}
+				var sunDialog = new SunDialog("add_updateUser",title);
+				sunDialog.setWidth(650);
+				sunDialog.setHeight(400);
+				sunDialog.setIconCls("icon-save");
+				/*     	   sunDialog.setToolbar([{
+				 text:'Add',
+				 iconCls:'icon-add',
+				 handler:function(){
+				 alert('add');
+				 }
+				 },'-',{
+				 text:'Save',
+				 iconCls:'icon-save',
+				 handler:function(){
+				 alert('save')
+				 }
+				 }]); */
+				
+			sunDialog.setButtons([
+								{
+									text : '保存',
+									iconCls : 'icon-ok',
+									handler : function() {
+										/* 					$('#ff').form('submit',{
+										 onSubmit:function(){
+										 return $(this).form('enableValidation').form('validate');
+										 }
+										 });
+										 */
+										 var validresult = $('#ff').form('enableValidation').form('validate');
+										if (validresult) {
+											$('#ff').ajaxSubmit({
+												success : function(data) {
+													if (data.resule == "success") {
+														sunDialog.close();
+														$('#ff').form('clear');
+														$.messager.alert('提示',title+'成功!');
+														$("#mytb").datagrid('reload');
+													} else {
+														$.messager.alert('提示',title+'失败','error');
+													}
+												}
+											});
+										}
+									}
+								}, {
+									text : '取消',
+									handler : function() {
+										sunDialog.close();
+									}
+								} ]);
+				sunDialog.build();
+			}
+		</script>
 </body>
-	
 </html>

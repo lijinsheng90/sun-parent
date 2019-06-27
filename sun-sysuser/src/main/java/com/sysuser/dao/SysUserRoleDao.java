@@ -17,19 +17,19 @@ public interface SysUserRoleDao {
 	 * @param userId
 	 * @return
 	 */
-	public List<SysUserRole> getRelationByUserId(@Param("userId") int userId);
+	public List<SysUserRole> getSysUserRolesById(@Param("userId") int userId);
 
 	/**
 	 * 通过userId删除关系
 	 * 
 	 * @param userId
 	 */
-	public void delById(@Param("userId") int userId);
+	public void delById(@Param("userIds") List<String> userIds);
 
 	/**
 	 * 批量插入关系数据
 	 * 
 	 * @param relationList
 	 */
-	public void insertRelations(List<SysUserRole> relationList);
+	public void insertSysUserRoles(List<SysUserRole> relationList);
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import com.sysuser.model.sys.SysUserRole;
 
 
-public interface RelationService {
+public interface SysUserRoleService {
 
 	/**
 	 * 通过userId得到关系List

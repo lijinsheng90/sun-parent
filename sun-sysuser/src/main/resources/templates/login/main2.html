@@ -19,7 +19,7 @@
     }
 
     .title {
-        background-color: #E0ECFF;
+        background-color: #FF8000;
         height: 50px;
         padding-left: 20%;
         padding-right: 20%;
@@ -47,7 +47,7 @@
         cursor: pointer;
         margin-top: 20px;
         border-radius: 3px;
-        background-color: #E9686B;
+        background-color: #FF8000;
         color: white;
         border: none;
         font-size: 15px;
@@ -61,7 +61,7 @@
 		        
 				<form id="loginForm" method="post" action="/wh/logout">
 		            <input type="hidden" name="loginOutUrl" value="http://localhost:8080/wh/auth/login"/>
-		            <input type="hidden" name="_csrf" th:value="${_csrf.getToken()}"/>
+		            <input type="hidden" name="_csrf" value="${_csrf.getToken()}"/>
 		        </form>
 		
 		    </div>

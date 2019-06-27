@@ -69,6 +69,7 @@ public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerA
 */
 		http.authorizeRequests() 
 	      .anyRequest().authenticated() //任何请求,登录后可以访问 
+	      .and().anonymous()//对于没有配置权限的其他请求允许匿名访问
 	      .and() .formLogin() .loginPage("/auth/login") .failureUrl("/auth/login?error") .permitAll() //登录页面用户任意访问 
 	      .and().logout().logoutSuccessHandler(new MyLogoutSuccessHandler()).permitAll(); //注销行为任意访问
 		 http.authorizeRequests().antMatchers("/authorize").permitAll();
