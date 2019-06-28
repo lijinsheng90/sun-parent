@@ -9,8 +9,8 @@ import com.sysuser.dao.SysRoleDao;
 import com.sysuser.model.sys.SysRole;
 
 
-@Service(value = "roleServiceImpl")
-public class RoleServiceImpl implements RoleService {
+@Service(value = "sysRoleServiceImpl")
+public class SysRoleServiceImpl implements SysRoleService {
 
 	@Autowired
 	private SysRoleDao roleDao;

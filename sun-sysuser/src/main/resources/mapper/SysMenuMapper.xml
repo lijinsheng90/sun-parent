@@ -77,31 +77,7 @@
 			</if>
 		</where>
 	</delete>
-	<!-- 通过parentId得到menus列表 -->
-	<select id="menusByParentId" resultMap="menuMap">
-		select * from sys_menu
-		<where>
-			<if test="parentId != null">
-				parent_id = #{parentId}
-			</if>
-		</where>
-	</select>
 
-	<select id="getParentMenuListById" resultMap="menuMap">
-		select * from sys_menu
-		<where>
-			id in (select distinct parent_id from sys_menu
-			<where>
-				id in
-				<foreach collection="ids" item="item" index="index" open="("
-					separator="," close=")">
-					#{item}
-				</foreach>
-			</where>
-			)
-		</where>
-		order by sort
-	</select>
 	<select id="getMenuListById" resultMap="menuMap">
 		select * from sys_menu
 		<where>
@@ -113,17 +89,30 @@
 		</where>
 		order by sort
 	</select>
-	<!-- 获取二级菜单 -->
-	<select id="getSubmenus" resultMap="menuMap">
+
+
+    <!-- 根据角色获取有权限的菜单列表 -->
+	<select id="getSysMenuList" resultMap="menuMap">
+	    select * from sys_menu sm where exists(select 1 from sys_resource_authoritie sra 
+	    left join sys_role_authoritie roleauth on sra.authoritie_id=roleauth.authoritie_id 
+	    where sra.resource_id=sm.id 
+	    <if test="roleId != null and roleId != null ">
+	        and roleauth.role_id=#{roleId}
+		</if>
+	    )
+	</select>
+	
+	 <!-- 根据菜单ID获取菜单对象 -->
+	<select id="getSysMenuById" resultMap="menuMap">
 		select * from sys_menu
 		<where>
-			url is not null
+			<if test="id != null and id != null ">
+		       id=#{id}
+			</if>
 		</where>
 	</select>
 	
-	
-	
-		<!-- 根据权限获取url -->
+    <!-- 根据权限名称获取url -->
 	<select id="getResourcesListByAuth" resultMap="menuMap">
 	<![CDATA[SELECT * FROM sys_menu sm 
 	       LEFT JOIN sys_resource_authoritie sra ON sm.`id`=sra.`resource_id` 

@@ -5,7 +5,7 @@ import java.util.List;
 import com.sysuser.model.sys.SysRole;
 
 
-public interface RoleService {
+public interface SysRoleService {
 
 	/**
 	 * 获取role列表

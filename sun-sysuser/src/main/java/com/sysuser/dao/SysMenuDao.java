@@ -10,13 +10,6 @@ import com.sysuser.model.sys.SysMenu;
 @Mapper
 public interface SysMenuDao {
 
-	/**
-	 * 通过用户Id得到一级菜单List
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public List<SysMenu> getParentMenuListById(@Param("ids") String[] ids);
 
 	public List<SysMenu> getMenuListById(@Param("ids") String[] ids);
 
@@ -63,20 +56,6 @@ public interface SysMenuDao {
 	 */
 	public void deleteMenus(@Param("groupId") List<String> groupId);
 
-	/**
-	 * 通过parentId得到menus列表
-	 * 
-	 * @param parentId
-	 * @return
-	 */
-	public List<SysMenu> menusByParentId(@Param("parentId") int parentId);
-
-	/**
-	 * 获取二级菜单
-	 * @return
-	 */
-	public List<SysMenu> getSubmenus();
-	
 	
 	/**
 	 * 根据权限获取菜单
@@ -89,5 +68,15 @@ public interface SysMenuDao {
 	 * @return
 	 */
 	public List<SysMenu> getResourcesList();
+
+	/**
+	 * 根据登录角色获取有权限的菜单
+	 */
+	public List<SysMenu> getSysMenuList(@Param("roleId") int roleId);
+
+	/**
+	 * 根据菜单ID获取菜单对象
+	 */
+	public SysMenu getSysMenuById(@Param("id") int id);
 
 }

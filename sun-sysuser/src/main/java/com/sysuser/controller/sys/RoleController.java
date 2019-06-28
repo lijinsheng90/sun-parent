@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sysuser.model.sys.PageResult;
 import com.sysuser.model.sys.SysRole;
-import com.sysuser.service.manage.RoleService;
+import com.sysuser.service.manage.SysRoleService;
 
 @RestController
 public class RoleController {
 
 	private Logger log = LoggerFactory.getLogger(RoleController.class);
 
-	@Resource(name = "roleServiceImpl")
-	private RoleService roleService;
+	@Resource(name = "sysRoleServiceImpl")
+	private SysRoleService roleService;
 
 	/**
 	 * 获取role表数据

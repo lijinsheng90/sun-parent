@@ -1,19 +1,13 @@
 package com.sysuser.service.manage;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sysuser.model.sys.SysMenu;
 
 
-public interface MenuService {
+public interface SysMenuService {
 
-	/**
-	 * 得到菜单List
-	 * 
-	 * @param id
-	 * @return
-	 */
-	List<SysMenu> menuList(int id);
 
 	/**
 	 * 获取menus列表
@@ -57,18 +51,16 @@ public interface MenuService {
 	 */
 	void deleteMenus(List<String> groupId);
 
-	/**
-	 * 通过parentId得到menus列表
-	 * 
-	 * @param parentId
-	 * @return
-	 */
-	List<SysMenu> menusByParentId(int parentId);
 
 	/**
-	 * 获取二级菜单
-	 * @return
+	 * 根据登录角色获取有权限的菜单
+	 * 
 	 */
-	List<SysMenu> getSubmenus();
+	List<SysMenu> getSysMenuList(int roleId);
+	
+	/**
+	 *根据id获取菜单 
+	 */
+	void getParentSysMenuById(int id,List<SysMenu> list,Map<Integer, Integer> added);
 
 }

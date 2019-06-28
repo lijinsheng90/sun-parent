@@ -72,7 +72,8 @@ public class MyUserDetailsService implements UserDetailsService {
 		String password = userEntity.getPassword();
 		List<GrantedAuthority> collection = new ArrayList <>();
 		//Collection<GrantedAuthority> collection = new HashSet<GrantedAuthority>();
-		List<SysAuthoritie> authorities=userDao.getAuthoritieByUserId(userEntity.getId(),0);//获取用户所用权限
+		int roleid=userEntity.getSysUserRole().get(0).getRoleId();//获取第一个角色
+		List<SysAuthoritie> authorities=userDao.getAuthoritieByUserId(userEntity.getId(),roleid);//获取用户所用权限
 		for (SysAuthoritie sysAuthoritie : authorities) {
 			collection.add(new SimpleGrantedAuthority(sysAuthoritie.getName()));
 		}
@@ -92,6 +93,7 @@ public class MyUserDetailsService implements UserDetailsService {
 				accountNonLocked, collection);
 		userInfo.setId(userEntity.getId());
 		userInfo.setLoginName(userEntity.getLoginName());
+		userInfo.setRoleId(roleid);
 		return userInfo;
 		/*return new User(username, password, AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN"));*/
 		//return new User(username, password, collection);

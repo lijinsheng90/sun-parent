@@ -14,12 +14,6 @@ public class UserInfo extends User {
 		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 		// TODO Auto-generated constructor stub
 	}
-
-	/**
-	 * 
-	 */
-
-
 	
 	/**
 	 * id
@@ -34,6 +28,12 @@ public class UserInfo extends User {
 	 */
 	private String name;
 
+	/**
+	 * 登录角色
+	 * @return
+	 */
+	private int roleId;
+	
 	public int getId() {
 		return id;
 	}
@@ -57,6 +57,14 @@ public class UserInfo extends User {
 
 	public void setLoginName(String loginName) {
 		this.loginName = loginName;
+	}
+
+	public int getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
 	}
 
 }

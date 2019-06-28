@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sysuser.model.sys.SysMenu;
 import com.sysuser.model.sys.PageResult;
 import com.sysuser.model.sys.SysUser;
-import com.sysuser.service.manage.MenuService;
+import com.sysuser.service.manage.SysMenuService;
 import com.sysuser.service.manage.UserService;
 
 
@@ -26,8 +26,8 @@ public class MenuController {
 
 	private Logger log = LoggerFactory.getLogger(MenuController.class);
 
-	@Resource(name = "menuServiceImpl")
-	private MenuService menuService;
+	@Resource(name = "sysMenuService")
+	private SysMenuService menuService;
 
 	@Resource(name = "userServiceImpl")
 	private UserService userService;
@@ -41,7 +41,7 @@ public class MenuController {
 	@GetMapping("/menu/{loginName}")
 	public List<SysMenu> menuList(@PathVariable String loginName) {
 		SysUser userEntity = userService.getUserEntityByLoginName(loginName);
-		List<SysMenu> menuList = menuService.menuList(userEntity.getId());
+		List<SysMenu> menuList = null;
 		return menuList;
 	}
 
@@ -69,7 +69,7 @@ public class MenuController {
 	 */
 	@GetMapping("/menus/parentId")
 	public List<SysMenu> menusByParentId(int parentId) {
-		return menuService.menusByParentId(parentId);
+		return null;
 	}
 
 	/**
@@ -119,6 +119,6 @@ public class MenuController {
 	 */
 	@GetMapping("/menus/submenus")
 	public List<SysMenu> getSubmenus() {
-		return menuService.getSubmenus();
+		return null;
 	}
 }

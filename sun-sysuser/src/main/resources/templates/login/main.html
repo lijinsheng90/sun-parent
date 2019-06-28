@@ -74,8 +74,20 @@
 	<div region="west" split="true" title="导航菜单" style="width: 200px;">
 		<div id="aa" class="easyui-accordion" data-options="fit:false"
 			style="position: absolute; top: 27px; left: 0px; right: 0px; bottom: 0px;">
-			<div title="申报管理" iconcls="icon-save" 
-				style="overflow: auto; padding: 10px;">
+			
+			<div th:each="sysMenu:${sysMenus}" th:if="${sysMenu.parentId eq 0}" th:title="${sysMenu.name}" th:iconcls="${sysMenu.icon}" style="overflow: auto; padding: 10px;">
+			   <ul class="easyui-tree">
+			       <li th:each="sysMenu2:${sysMenus}" th:if="${sysMenu2.parentId eq sysMenu.id}" th:iconcls="${sysMenu2.icon}">
+				        <span th:if="${sysMenu2.url eq null or sysMenu2.url eq ''}" th:text="${sysMenu2.name}"></span>
+				        <ul th:if="${sysMenu2.url eq null or sysMenu2.url eq ''}">
+				           <li th:each="sysMenu3:${sysMenus}" th:if="${sysMenu3.parentId eq sysMenu2.id}" th:iconcls="${sysMenu3.icon}"><span><a th:target="${'mainFrame'+sysMenu3.id}" th:href="${sysMenu3.url}" th:text="${sysMenu3.name}"></a></span></li>
+				        </ul>
+						<span th:if="!${sysMenu2.url eq ''}"><a th:target="${'mainFrame'+sysMenu2.id}" th:href="${sysMenu2.url}" th:text="${sysMenu2.name}"></a></span>
+			       </li>
+			   </ul>
+			</div>
+			
+			<!-- <div title="申报管理" iconcls="icon-save" style="overflow: auto; padding: 10px;">
 				<ul class="easyui-tree">
 					<li iconcls="icon-save"><span>Folder</span>
 						<ul>
@@ -93,25 +105,12 @@
 					</li>
 					<li><span><a href="#">File21</a></span></li>
 				</ul>
-			</div>
-			<div title="用户管理" iconcls="icon-reload" style="padding: 10px;" selected="true">
-			   <ul class="easyui-tree">
-					<li iconcls="icon-save"><span><a target="mainFrame" href="user/userManage">账号管理</a></span></li>
-					<li><span><a target="mainFrame" href="user/roleManage">角色管理</a></span></li>
-					<li><span><a target="mainFrame" href="user/userInfo">个人信息</a></span></li>
-				</ul>
-			</div>
-			<div title="系统管理">
-			    <ul class="easyui-tree">
-					<li iconcls="icon-save"><span><a target="mainFrame" href="user/userManage">菜单管理</a></span></li>
-					<li><span><a target="mainFrame" href="/wh/hello">权限管理</a></span></li>
-					<li><span><a target="mainFrame" href="user/userInfo">内部单位管理</a></span></li>
-				</ul></div>
+			</div> -->
+			
 		</div>
 	</div>
 
 
-	</div>
 	
 	<div id="mainPanle" region="center" style="overflow: hidden;">
 	    <div id="tabs" class="easyui-tabs" fit="true" border="false">
@@ -135,7 +134,8 @@
 								function() {
 									var tabTitle = $(this).text();
 									var url = $(this).attr("href");
-									addTab(tabTitle, url);
+									var target = $(this).attr("target");
+									addTab(tabTitle, url,target);
 									$('.easyui-accordion li div').removeClass(
 											"selected");
 									$(this).parent().addClass("selected");
@@ -145,11 +145,11 @@
 							$(this).parent().removeClass("hover");
 						});
 
-						function addTab(subtitle, url) {
+						function addTab(subtitle, url,target) {
 							if (!$('#tabs').tabs('exists', subtitle)) {
 								$('#tabs').tabs('add', {
 									title : subtitle,
-									content : createFrame(url),
+									content : createFrame(url,target),
 									closable : true,
 									width : $('#mainPanle').width() - 10,
 									height : $('#mainPanle').height() - 26
@@ -160,8 +160,8 @@
 							//tabClose();
 						}
 
-						function createFrame(url) {
-							var s = '<iframe name="mainFrame" scrolling="auto" frameborder="0" src="'
+						function createFrame(url,target) {
+							var s = '<iframe name="'+target+'" scrolling="auto" frameborder="0" src="'
 									+ url
 									+ '" style="width:100%;height:99%;"></iframe>';
 							return s;

@@ -63,5 +63,20 @@ public class SecurityAuthenUtil {
 		return authenUser;
 	}
 	
+	/**
+	 * 直接获取当前登录角色
+	 * @return
+	 */
+	public static int getRoleId() {
+		Authentication authenObj = SecurityContextHolder.getContext().getAuthentication();
+		int roleId=0;
+		 if (authenObj == null || ANONYMOUSUSER.equalsIgnoreCase(authenObj.getName())) {
+			 roleId=0;
+		 } else {
+			 UserInfo authenUser = (UserInfo)authenObj.getPrincipal();
+			 roleId=authenUser.getRoleId();
+		 }
+		return roleId;
+	}
 
 }
