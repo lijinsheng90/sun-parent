@@ -1,28 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>用户管理</title>
-    <script th:src="@{/jquery/jquery.js}"></script>
-    <link rel="stylesheet" th:href="@{/juqeryEasyUI/themes/default/easyui.css}">
-    <link rel="stylesheet" th:href="@{/juqeryEasyUI/themes/icon.css}">
-    <link rel="stylesheet" th:href="@{/juqeryEasyUI/demo.css}">
-    <script th:src="@{/juqeryEasyUI/jquery.min.js}"></script>
-    <script th:src="@{/juqeryEasyUI/jquery.easyui.min.js}"></script>
-    <script th:src="@{/juqeryEasyUI/locale/easyui-lang-zh_CN.js}"></script>
-    <script th:src="@{/juqeryEasyUI/plugins/jquery.datagrid.js}"></script>
-    <script th:src="@{/jquery/jquery.form.js}"></script>
-    <script th:src="@{/jquery/jquery-migrate-1.4.1.js}"></script>
-    <script th:src="@{/juqeryEasyUI/Packing/SunDialog.js}"></script>
-    <script th:src="@{/juqeryEasyUI/scmtip/scmtip.js}"></script>
-    <link rel="stylesheet" th:href="@{/juqeryEasyUI/scmtip/scmtip.css}">
-    <link rel="stylesheet" th:href="@{/common/public.css}">
-</head>
+<head th:include="common/commonHead.html :: head('进入系统首页')"></head>
 
 <body style="padding: 4px;">
 <div th:replace="common/basePath :: thymeleaf_url"></div>
-
-	 <table id="mytb" ></table>
+    
+	 <!-- <div th:replace="common/searchPage :: mySarch('userKey')"  ></div> -->
+	 <div id="searchModel">
+	    <!-- 查询条件 -->
+	 </div>
+	 <div class="clear5"></div>
+	 <table id="mytb" ></table><!-- 表格数据 -->
+	<!--  添加编辑弹出框 -->
 	 <div id="add_updateUser" style="width:650px;height:400px;padding:10px;display: none;">
 	    	<form id="ff" method="post" th:action="@{/users/addEditUser}" th:object="${userEntity}">
 	    	    <input class="easyui-textbox" type="hidden" th:field="*{id}" name="id"/>
@@ -45,6 +34,10 @@
 	 </div>
 	
 	 <script type="text/javascript" th:inline="none">
+		$(document).ready(function() {
+		    $("#searchModel").load(basePath+"/common/searchModel");
+		});
+	 
        $('#mytb').datagrid({
            title: '',  //表格名称
            iconCls: 'icon-edit',  //图标
@@ -74,10 +67,11 @@
            striped: true,  //奇偶行是否使用不同的颜色
            queryParams:{"aaa":"ces","bbb":"ceshi2"},//请求数据时额外发送的参数
            method:'get',   //表格数据获取方式,请求地址是上面定义的url
-           sortName: 'ID',  //按照ID列的值排序
+           sortName: 'id',  //按照ID列的值排序
            sortOrder: 'desc',  //使用倒序排序
            idField: 'id',
            loadMsg:'正在努力加载，请稍后...',   //加载数据时显示提示信息
+           //toolbar:'#tb'
            toolbar: [{
                      text: '添加',
                      iconCls: 'icon-add',

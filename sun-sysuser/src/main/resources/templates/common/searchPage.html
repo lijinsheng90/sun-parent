@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:http="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+
+</head>
+
+<body>
+    <!-- th:fragment 定义需要引入的代码块，该div包含的内容即为引用的公共内容 -->
+     <div th:fragment="mySarch" th:unless="${#lists.isEmpty(searchList)}" style="border: 1px solid #95B8E7;" id="search">
+	        <ul>
+	            <li th:each="m,iterStat : ${searchList}" th:if="${m.tagType eq 'date'}"><div class="searchLeft" th:text="${m.fieldCaption}+'：'"><!-- 时间类型: --></div> <div class="searchRight"><input class="easyui-datebox" th:id="${m.fieldName}" th:name="${m.fieldName}" style="width:100%"></div></li>
+	            <li th:each="m,iterStat : ${searchList}" th:if="${m.tagType eq 'text'}"><div class="searchLeft" th:text="${m.fieldCaption}+'：'"><!-- 文本输入框: --></div> <div class="searchRight"><input class="easyui-textbox" th:id="${m.fieldName}" th:name="${m.fieldName}" style="width:100%"></div></li>
+	        
+ 	            <li th:each="m,iterStat : ${searchList}" th:if="${m.tagType eq 'select'}">
+	               <div class="searchLeft" th:text="${m.fieldCaption}+'：'">:</div> 
+	               <div class="searchRight">
+		              <input class="easyui-combobox" th:id="${m.fieldName}" th:name="${m.fieldName}" style="width:100%;" 
+		              th:attr="data-options=|{url:'/wh/common/select?dict_key=${m.dictKey}',method:'get',valueField:'id',textField:'text',panelHeight:'auto'}|"/>
+	               </div>
+	            </li> 
+	            
+	            <li th:each="m,iterStat : ${searchList}" th:if="${m.tagType eq 'tree'}">
+	               <div class="searchLeft" th:text="${m.fieldCaption}+'：'">:</div>  
+	               <div class="searchRight">
+	                <input class="easyui-combotree" th:id="${m.fieldName}" th:name="${m.fieldName}" th:attr="data-options=|{url:'/wh/common/tree?dict_key=${m.dictKey}',method:'get',labelPosition:'top'}|" style="width:100%"/>
+	                 <!-- <input class="easyui-combotree" th:id="${m.fieldName}" th:name="${m.fieldName}" th:attr="data-options='url:'/wh/common/tree',method:'get',labelPosition:'top''" style="width:100%"> -->
+	               </div>
+	            </li>
+
+	            <li>
+	               <div class="searchLeft" style="width: 150px;text-align: left;padding-left:18px;">
+	                  <a href="#" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+					  <a href="#" class="easyui-linkbutton" iconCls="icon-cut">清除</a>
+	               </div>
+	            </li>
+	        </ul>
+	        <div style="clear:both;"></div>
+	        <div th:replace="common/commonHead.html :: head('test1')"></div>
+    
+	  <script  type="text/javascript" th:inline="javascript">
+	     function selectClick(){
+	    	 alert(111111);
+	     }
+
+	 </script>
+    </div>
+</body>
+
+</html>
